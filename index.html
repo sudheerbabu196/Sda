@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8">
+  <title>ఆంధ్ర క్రైస్తవ కీర్తనలు</title>
+  <style>
+    body {
+      font-family: "Noto Sans Telugu", sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    h1, h2 { text-align: center; }
+
+    #alphabetPage, #songListPage, #lyricsPage { display: none; }
+    #alphabetPage { display: block; }
+
+    /* Alphabet */
+    .alphabet {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px;
+    }
+    .alphabet button {
+      background: #1db954;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+    .alphabet button:hover { background: #1ed760; }
+
+    /* Song list */
+    .song-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .song-card {
+      background: #1e2a38;
+      border-radius: 10px;
+      padding: 12px;
+      width: 320px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+      text-align: left;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .song-card:hover {
+      transform: translateX(5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
+
+    /* Lyrics */
+    .lyrics-box {
+      background: #111;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px auto;
+      text-align: left;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
+      width: 80%;
+      line-height: 1.8;
+    }
+    .lyrics-box h3 { margin: 0 0 10px 0; color: #1db954; }
+
+    button {
+      background: #1db954;
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+    button:hover { background: #1ed760; transform: scale(1.05); }
+  </style>
+</head>
+<body{
+
+  <!-- Alphabet Page -->
+  <div id="alphabetPage">
+    <h1>🎶 ఆంధ్ర క్రైస్తవ కీర్తనలు</h1>
+    <h2>అక్షరమాల ద్వారా ఎంచుకోండి</h2>
+    <div class="alphabet" id="alphabetButtons"></div>
+  </div>
+
+  <!-- Song List Page -->
+  <div id="songListPage">
+    <h2 id="letterTitle"></h2>
+    <div class="song-list" id="songList"></div>
+    <button onclick="backToAlphabet()">⬅️ Back to Letters</button>
+  </div>
+
+  <!-- Lyrics Page -->
+  <div id="lyricsPage">
+    <h2 id="lyricsTitle"></h2>
+    <div class="lyrics-box"><pre id="lyricsText"></pre></div>
+    <button onclick="backToSongs()">⬅️ Back to Songs</button>
+  </div>
+
+  <script>
+    // Full Telugu alphabet (అ నుంచి హ వరకు)
+    const teluguAlphabet = ["అ","ఆ","ఇ","ఈ","ఉ","ఊ","ఋ","ఎ","ఏ","ఐ","ఒ","ఓ","ఔ",
+      "క","ఖ","గ","ఘ","ఙ","చ","ఛ","జ","ఝ","ఞ",
+      "ట","ఠ","డ","ఢ","ణ","త","థ","ద","ధ","న",
+      "ప","ఫ","బ","భ","మ","య","ర","ల","వ","శ","ష","స","హ"];
+
+    // All songs (title + lyrics)
+    const allSongs = [
+    
+      {title: "అగ్ని మండించు ప్రభువా", lyrics: "అగ్ని మండించు ప్రభువా..."},
+      {title: "అతి పరిశుద్ధుడా", lyrics: `అతి పరిశుద్ధుడా స్తుతి నైవేద్యము
+నీకే అర్పించి కీర్తింతును   (2)
+నీవు నా పక్షమై నను దీవించగా
+నీవు నా తోడువై నను నడిపించగా
+జీవింతును నీకోసమే – ఆశ్రయమైన నా యేసయ్యా
+                       //అతి పరిశుద్ధుడా//
+1. సర్వోన్నతమైన స్థలములు యందు
+నీ మహిమ వివరింపగా
+ఉన్నతమైన నీ సంకల్పము
+ఎన్నడు ఆశ్చర్యమే (2)
+ముందెన్నడూ చవిచూడని
+సరి క్రొత్తదైన ప్రేమామృతం (2)
+నీలోనే దాచావు ఈనాటికై
+నీ ఋణం తీరదు ఏనాటికి  (2)
+                       //అతి పరిశుద్ధుడా//
+2. సద్గుణరాశి నీ జాడలను
+నా యెదుట నుంచుకొని
+గడచిన కాలం సాగిన పయనం
+నీ కృపకు సంకేతమే (2)
+కృప వెంబడి కృప పొందగా
+మారాను మధురముగా నే పొందగా  (2)
+నా లోన ఏ మంచి చూసావయ్యా
+నీ ప్రేమ చూపితివి నా యేసయ్యా (2)
+                       //అతి పరిశుద్ధుడా//
+3. సారెపై నున్న పాత్రగ నన్ను
+చేజారి పోనివ్వక
+శోధనలెన్నో ఎదిరించినను
+నను సోలి పోనివ్వక  (2)
+ఉన్నావులే ప్రతి క్షణమునా
+కలిసి ఉన్నావులే ప్రతి అడుగునా  (2)
+నీవేగా యేసయ్యా నా ఊపిరి
+నీవేగా యేసయ్యా నా కాపరి  (2)
+                       //అతి పరిశుద్ధుడా//`},
+       
+      {title: "ఆనందముగా యేసయ్యా", lyrics: "ఆనందముగా యేసయ్యా..."},
+      {title: "యేసు నాథా నీవు నా రక్షకుడవు", lyrics: "యేసు నాథా..."},
+      {title: "యేసయ్యా నా ప్రాణము", lyrics: "యేసయ్యా నా ప్రాణము..."},
+      {title: "దేవుని ప్రేమ గొప్పది", lyrics: "దేవుని ప్రేమ గొప్పది..."},
+      {title: "హల్లెలూయా స్తోత్రము", lyrics: "హల్లెలూయా స్తోత్రము..."}
+    ];
+
+    let currentLetter = "";
+    let currentSongs = [];
+
+    // Build alphabet buttons
+    const alphaDiv = document.getElementById("alphabetButtons");
+    teluguAlphabet.forEach(letter => {
+      let btn = document.createElement("button");
+      btn.innerText = letter;
+      btn.onclick = () => showSongs(letter);
+      alphaDiv.appendChild(btn);
+    });
+
+    function showSongs(letter) {
+      currentLetter = letter;
+      currentSongs = allSongs.filter(s => s.title.startsWith(letter));
+      document.getElementById("alphabetPage").style.display = "none";
+      document.getElementById("songListPage").style.display = "block";
+      document.getElementById("letterTitle").innerText = letter + " తో మొదలయ్యే పాటలు";
+
+      let listDiv = document.getElementById("songList");
+      listDiv.innerHTML = "";
+      if (currentSongs.length === 0) {
+        listDiv.innerHTML = "<p>ఈ అక్షరంతో పాటలు లేవు</p>";
+      } else {
+        currentSongs.forEach((song, index) => {
+          let div = document.createElement("div");
+          div.className = "song-card";
+          // Numbering starts from 1 for each letter group
+          div.innerText = (index + 1) + ". " + song.title;
+          div.onclick = () => openLyrics(index);
+          listDiv.appendChild(div);
+        });
+      }
+    }
+
+    function openLyrics(index) {
+      let song = currentSongs[index];
+      document.getElementById("songListPage").style.display = "none";
+      document.getElementById("lyricsPage").style.display = "block";
+      document.getElementById("lyricsTitle").innerText = song.title;
+      document.getElementById("lyricsText").innerText = song.lyrics;
+    }
+
+    function backToAlphabet() {
+      document.getElementById("songListPage").style.display = "none";
+      document.getElementById("alphabetPage").style.display = "block";
+    }
+
+    function backToSongs() {
+      document.getElementById("lyricsPage").style.display = "none";
+      document.getElementById("songListPage").style.display = "block";
+    }
+  </script>
+</body>
+</html>
