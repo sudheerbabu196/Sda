@@ -21,12 +21,15 @@
       height: 100vh;
       padding: 20px;
       box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 1s ease; /* fade effect */
     }
     .active {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      opacity: 1;
     }
     img.logo {
       max-width: 300px;
@@ -115,8 +118,13 @@
     };
 
     function showPage(pageId) {
-      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-      document.getElementById(pageId).classList.add("active");
+      document.querySelectorAll(".page").forEach(p => {
+        p.classList.remove("active");
+        setTimeout(() => p.style.display = "none", 500);
+      });
+      const newPage = document.getElementById(pageId);
+      newPage.style.display = "flex";
+      setTimeout(() => newPage.classList.add("active"), 50);
     }
 
     function goBackToAlphabet() {
@@ -158,4 +166,10 @@
       document.getElementById("lyrics").textContent = lyrics;
     }
 
-    // Auto
+    // Auto move from splash to alphabet after 3s with fade
+    setTimeout(() => {
+      showPage("alphabetPage");
+    }, 3000);
+  </script>
+</body>
+</html>
