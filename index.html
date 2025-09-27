@@ -10,7 +10,6 @@
       color: white;
       margin: 0;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
@@ -19,13 +18,19 @@
       display: none;
       text-align: center;
       width: 100%;
+      height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
     }
     .active {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     img.logo {
-      max-width: 250px;
-      margin-bottom: 20px;
+      max-width: 300px;
+      height: auto;
     }
     button {
       padding: 12px 20px;
@@ -41,11 +46,21 @@
       background: #14833b;
     }
     .alphabet {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); /* 4 letters per row */
+      gap: 12px;
       margin-top: 20px;
+      width: 100%;
+      max-width: 600px;
+    }
+    .alphabet button {
+      padding: 15px;
+      font-size: 20px;
+      border-radius: 10px;
+      background: #1db954;
+      color: white;
+      border: none;
+      cursor: pointer;
     }
     .song-list button {
       display: block;
@@ -64,9 +79,7 @@
 
   <!-- Splash Page -->
   <div id="splashPage" class="page active">
-    <img width="576" height="327" alt="17589045968861802547412438714345" src="https://github.com/user-attachments/assets/9e2a9bc7-42e4-467b-b8f6-e7dabb2f12d1" />
-    <br>
-    <button onclick="goToAlphabet()">Enter</button>
+    <img class="logo" src="https://github.com/user-attachments/assets/9e2a9bc7-42e4-467b-b8f6-e7dabb2f12d1" alt="Logo">
   </div>
 
   <!-- Alphabet Page -->
@@ -104,10 +117,6 @@
     function showPage(pageId) {
       document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
       document.getElementById(pageId).classList.add("active");
-    }
-
-    function goToAlphabet() {
-      showPage("alphabetPage");
     }
 
     function goBackToAlphabet() {
@@ -148,6 +157,11 @@
       document.getElementById("songTitle").textContent = title;
       document.getElementById("lyrics").textContent = lyrics;
     }
+
+    // Auto move from splash to alphabet after 3s
+    setTimeout(() => {
+      showPage("alphabetPage");
+    }, 3000);
   </script>
 </body>
 </html>
