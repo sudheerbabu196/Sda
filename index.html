@@ -13,6 +13,7 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      overflow: hidden;
     }
     .page {
       display: none;
@@ -22,7 +23,7 @@
       padding: 20px;
       box-sizing: border-box;
       opacity: 0;
-      transition: opacity 1s ease; /* fade effect */
+      transition: opacity 0.8s ease; /* smooth fade */
     }
     .active {
       display: flex;
@@ -118,10 +119,12 @@
     };
 
     function showPage(pageId) {
-      document.querySelectorAll(".page").forEach(p => {
-        p.classList.remove("active");
-        setTimeout(() => p.style.display = "none", 500);
-      });
+      const current = document.querySelector(".page.active");
+      if (current) {
+        current.classList.remove("active");
+        setTimeout(() => current.style.display = "none", 500);
+      }
+
       const newPage = document.getElementById(pageId);
       newPage.style.display = "flex";
       setTimeout(() => newPage.classList.add("active"), 50);
@@ -166,7 +169,7 @@
       document.getElementById("lyrics").textContent = lyrics;
     }
 
-    // Auto move from splash to alphabet after 3s with fade
+    // Auto move from splash to alphabet after 3s
     setTimeout(() => {
       showPage("alphabetPage");
     }, 3000);
