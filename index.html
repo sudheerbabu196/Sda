@@ -2,80 +2,92 @@
 <html lang="te">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ఆంధ్ర క్రైస్తవ కీర్తనలు</title>
   <style>
     body {
       font-family: "Noto Sans Telugu", sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background-color: black;
       color: white;
       margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      padding: 0;
       overflow: hidden;
     }
+
     .page {
       display: none;
-      text-align: center;
-      width: 100%;
       height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
-      opacity: 0;
-      transition: opacity 0.8s ease; /* smooth fade */
+      width: 100%;
+      text-align: center;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
+
     .active {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      opacity: 1;
     }
+
     img.logo {
-      max-width: 300px;
-      height: auto;
+      max-width: 250px;
+      margin-bottom: 20px;
     }
-    button {
-      padding: 12px 20px;
-      background: #1db954;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #14833b;
-    }
-    .alphabet {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr); /* 4 letters per row */
-      gap: 12px;
-      margin-top: 20px;
-      width: 100%;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 90%;
       max-width: 600px;
     }
-    .alphabet button {
-      padding: 15px;
-      font-size: 20px;
-      border-radius: 10px;
-      background: #1db954;
+
+    li {
+      background-color: #2ecc71;
       color: white;
-      border: none;
+      border-radius: 12px;
+      margin: 10px 0;
+      padding: 15px;
+      font-size: 1.1em;
       cursor: pointer;
+      transition: 0.2s;
     }
-    .song-list button {
-      display: block;
-      margin: 8px auto;
-      width: 80%;
+
+    li:hover {
+      background-color: #27ae60;
     }
-    .lyrics-box {
+
+    .lyrics {
+      display: none;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 20px;
+      text-align: left;
+    }
+
+    .lyrics h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2ecc71;
+    }
+
+    button {
+      background-color: #2ecc71;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #27ae60;
+    }
+
+    .lyrics pre {
       white-space: pre-wrap;
       font-size: 18px;
-      margin: 20px;
-      text-align: left;
     }
   </style>
 </head>
@@ -83,96 +95,173 @@
 
   <!-- Splash Page -->
   <div id="splashPage" class="page active">
-    <img class="logo" src="https://github.com/user-attachments/assets/9e2a9bc7-42e4-467b-b8f6-e7dabb2f12d1" alt="Logo">
-  </div>
-
-  <!-- Alphabet Page -->
-  <div id="alphabetPage" class="page">
-    <h1>అ నుండి హ వరకు</h1>
-    <div class="alphabet" id="alphabetButtons"></div>
+    <img class="logo" src="https://github.com/user-attachments/assets/9e2a9bc7-42e4-467b-b8f6-e7dabb2f12d1" alt="Logo"/>
   </div>
 
   <!-- Song List Page -->
   <div id="songListPage" class="page">
-    <h2 id="selectedLetter"></h2>
-    <div class="song-list" id="songList"></div>
-    <button onclick="goBackToAlphabet()">Back</button>
+    <h1>ఆంధ్ర క్రైస్తవ కీర్తనలు</h1>
+    <ul>
+      <li onclick="showLyrics(1)">1. అన్ని కాలంబుల – నున్న యెహోవా</li>
+      <li onclick="showLyrics(2)">2. ఆకాశమందున్న ఆసీనుడా</li>
+      <li onclick="showLyrics(3)">3. ఆకాశ వాసులారా</li>
+      <li onclick="showLyrics(4)">4. ఇరువది నలుగురు పెద్దలతో</li>
+      <li onclick="showLyrics(5)">5. ఇశ్రాయేలు సైన్యములకు ముందు నడచిన దైవమా</li>
+      <li onclick="showLyrics(6)">6. ఓ ప్రభుండా నిన్ నుతీంచుచున్నాము</li>
+      <li onclick="showLyrics(7)">7. కలుగును గాక – దేవునికి మహిమ</li>
+      <li onclick="showLyrics(8)">8. కూడికొని యున్నాము సంఘ ప్రభో</li>
+      <li onclick="showLyrics(9)">9. క్రీస్తే సర్వాధికారి</li>
+      <li onclick="showLyrics(10)">10. కృపామయుడా – నీలోనా</li>
+      <li onclick="showLyrics(11)">11. గొప్ప దేవ నాకు తండ్రివి</li>
+      <li onclick="showLyrics(12)">12. ఘన భవ దుపకృతు</li>
+      <li onclick="showLyrics(13)">13. చూచుచున్నాము నీ వైపు</li>
+      <li onclick="showLyrics(14)">14. తరతరాలలో యుగయుగాలలో</li>
+      <li onclick="showLyrics(15)">15. తరతరాలలో యుగయుగాలలో దేవుడు</li>
+      <li onclick="showLyrics(16)">16. తెల్లవారిన వేళ</li>
+    </ul>
   </div>
 
   <!-- Lyrics Page -->
-  <div id="lyricsPage" class="page">
+  <div id="lyricsPage" class="lyrics">
     <h2 id="songTitle"></h2>
-    <div class="lyrics-box" id="lyrics"></div>
-    <button onclick="goBackToSongs()">Back</button>
+    <pre id="songLyrics"></pre>
+    <div style="text-align:center;">
+      <button onclick="goBack()">Back</button>
+    </div>
   </div>
 
   <script>
-    const alphabet = ["అ", "ఆ", "ఇ", "ఈ", "ఉ", "ఊ", "ఋ", "ఎ", "ఏ", "ఐ", "ఒ", "ఓ", "ఔ", "క", "ఖ", "గ", "ఘ", "చ", "ఛ", "జ", "ఝ", "ట", "ఠ", "డ", "ఢ", "ణ", "త", "థ", "ద", "ధ", "న", "ప", "ఫ", "బ", "భ", "మ", "య", "ర", "ల", "వ", "శ", "ష", "స", "హ"];
     const songs = {
-      "అ": [
-        { title: "అరుణోదయ గీతం", lyrics: "ఇది అక్షర 'అ' తో మొదలయ్యే పాట." },
-        { title: "అమృత వాణి", lyrics: "దీనిలో పవిత్ర గీతం ఉంటుంది." }
-      ],
-      "ఆ": [
-        { title: "ఆనంద గానం", lyrics: "ఆనందమయమైన గీతం." }
-      ]
-    };
+1: `అన్ని కాలంబుల – నున్న యెహోవా ని
+నెన్నదరంబయో – కన్న తండ్రి
+వన్నె కెక్కిన మోక్ష – వాసాళి సన్నుతు
+లున్నతమై యుండ – మున్నె నీకు         ||అన్ని||
 
-    function showPage(pageId) {
-      const current = document.querySelector(".page.active");
-      if (current) {
-        current.classList.remove("active");
-        setTimeout(() => current.style.display = "none", 500);
-      }
+నిన్ను బ్రకటన సేయ – నిఖిల లోకములను
+బన్నుగ జేసిన – బలుడ వీవె
+ఉన్న లోకంబుల – నుడుగక కరుణా సం
+పన్నతతో నేలు – ప్రభుడ వీవె
+అన్ని జీవుల నెరిగి – యాహార మిచ్చుచు
+నున్న సర్వజ్ఞుo – డవు నీవే
+ఎన్న శక్యముగాక – ఉన్న లక్షణముల
+సన్నుతించుటకు నే – జాలుదునా           ||అన్ని||
 
-      const newPage = document.getElementById(pageId);
-      newPage.style.display = "flex";
-      setTimeout(() => newPage.classList.add("active"), 50);
-    }
+పుట్టింప నీవంచు – బోషింప నీవంచు
+గిట్టింప నీవంచు – గీర్తింతును
+నట్టి పనికి మాలి – నట్టి మానవుల చే
+పట్టి రక్షింప బా – ధ్యుండ వంచు
+దట్టమైన కృపను దరి జేర్చ నాకిచ్చి
+పట్టయు నిలచియుండు – ప్రభుడ వంచు
+గట్టడచే గడ – ముట్టుదనుక నా
+పట్టుకొలది నిన్ను – బ్రస్తుతింతు           ||అన్ని||
 
-    function goBackToAlphabet() {
-      showPage("alphabetPage");
-    }
+కారుణ్య నిధి వీవు – కఠినాత్ముడను నేను
+భూరి శుద్ధుడ వీవు – పాపి నేను
+సార భాగ్యుడ వీవు – జగతిలో నాకన్న
+దారిద్రుడే లేడు – తరచి చూడ
+సార సద్గుణముల – సంపన్నుడవు నీవు
+ఘోర దుర్గుణ సం – చారి, నేను
+ఏ రీతి స్తుతియింతు – నే రీతి సేవింతు
+నేర మెన్నక ప్రోవ – నెర నమ్మితి            ||అన్ని||`,
 
-    function goBackToSongs() {
-      showPage("songListPage");
-    }
+2: `ఆకాశమందున్న ఆసీనుడా
+నీ తట్టు కనులెత్తుచున్నాను
+నేను నీ తట్టు కనులెత్తుచున్నాను        ||ఆకాశ||
 
-    const alphabetButtons = document.getElementById("alphabetButtons");
-    alphabet.forEach(letter => {
-      const btn = document.createElement("button");
-      btn.textContent = letter;
-      btn.onclick = () => showSongs(letter);
-      alphabetButtons.appendChild(btn);
-    });
+దారి తప్పిన గొర్రెను నేను
+దారి కానక తిరుగుచున్నాను (2)
+కరుణించుమా యేసు కాపాడుమా        ||నీ తట్టు||
 
-    function showSongs(letter) {
-      showPage("songListPage");
-      document.getElementById("selectedLetter").textContent = letter + " తో మొదలయ్యే పాటలు";
-      const songList = document.getElementById("songList");
-      songList.innerHTML = "";
-      if (songs[letter]) {
-        songs[letter].forEach((song, index) => {
-          const btn = document.createElement("button");
-          btn.textContent = (index + 1) + ". " + song.title;
-          btn.onclick = () => showLyrics(song.title, song.lyrics);
-          songList.appendChild(btn);
-        });
-      } else {
-        songList.innerHTML = "<p>పాటలు లేవు</p>";
-      }
-    }
+గాయపడిన గొర్రెను నేను
+బాగు చేయుమా పరమ వైద్యుడా (2)
+కరుణించుమా యేసు కాపాడుమా        ||నీ తట్టు||
 
-    function showLyrics(title, lyrics) {
-      showPage("lyricsPage");
-      document.getElementById("songTitle").textContent = title;
-      document.getElementById("lyrics").textContent = lyrics;
-    }
+పాప ఊభిలో పడియున్నాను
+లేవనెత్తుమా నన్ను బాగు చేయుమా (2)
+కరుణించుమా యేసు కాపాడుమా        ||నీ తట్టు||`,
 
-    // Auto move from splash to alphabet after 3s
-    setTimeout(() => {
-      showPage("alphabetPage");
-    }, 3000);
-  </script>
-</body>
-</html>
+3: `ఆకాశ వాసులారా
+యెహోవాను స్తుతియించుడి (2)
+ఉన్నత స్థలముల నివాసులారా
+యెహోవాను స్తుతియించుడి – హల్లేలూయ (2)         ||ఆకాశ||
+
+ఆయన దూతలారా మరియు
+ఆయన సైన్యములారా (2)
+సూర్య చంద్ర తారలారా
+యెహోవాను స్తుతియించుడి – హల్లేలూయ (2)         ||ఆకాశ||
+
+సమస్త భుజనులారా మరియు
+జనముల అధిపతులారా (2)
+వృద్దులు బాలురు, యవ్వనులారా
+యెహోవాను స్తుతియించుడి – హల్లేలూయ (2)         ||ఆకాశ||`,
+
+4: `ఇరువది నలుగురు పెద్దలతో
+పరిశుద్ధ దూతల సమూహముతో (2)
+నాలుగు జీవుల గానముతో (2)
+స్యుతియింపబడుచున్న మా దేవా           ||ఇరువది||
+
+భూమ్యాకాశములన్నియును
+పర్వత సముద్ర జల చరముల్ (2)
+ఆకాశ పక్షులు అనుదినము (2)
+గానము చేయుచు స్తుతియింపన్           ||ఇరువది||
+
+కరుణారసమగు హృదయుడవు
+పరిశుద్ధ దేవ తనయుడవు (2)
+మనుజుల రక్షణ కారకుడా (2)
+మహిమ కలిగిన మా ప్రభువా           ||ఇరువది||
+
+గుప్పిలి విప్పి కూర్మితోను
+గొప్పగ దీవెనలిచ్చెదవు (2)
+గొర్రెల కాపరి దావీదు (2)
+అయ్యెను ఎంతో మహారాజు           ||ఇరువది||`,
+
+5: `ఇశ్రాయేలు సైన్యములకు ముందు నడచిన దైవమా (2)
+నేడు మాతో కూడా నుండి మమ్ము నడిపించుమా (2)
+
+సొలొమోను దేవాలయంలలో నీదు మేఘము రాగానే (2)
+యాజకులు నీ తేజో మహిమకు నిలువలేకపోయిరి (2)
+
+పూర్వము ప్రవక్తలతో నరుల రక్షణ ప్రకటించి (2)
+నన్ను వెదికిన వారికి నే దొరికితి నంటివి (2)
+
+నరులయందు నీదు ప్రేమ క్రీస్తు ద్వారా బయలుపరచి (2)
+సిలువ రక్తము చేత మమ్ము రక్షించి యుంటివి (2)
+
+ఆది యాపొస్తలులపై నీ యాత్మ వర్షము క్రుమ్మరించి (2)
+నట్లు మాపై క్రుమ్మరించి మమ్ము నడిపించుము (2)`,
+
+6: `1. ఓ ప్రభుండా నిన్ నుతీంచుచున్నాము వినయముతోడ మా ప్రభుండ వంచు నిన్ను మానక మేమొప్పుకొందు ||మో||
+2. నిత్యుఁడవౌ తండ్రి లోకము నిన్నారాధించుచు నుండు సత్యదూతల్ మోక్షమందు సర్వ ప్రధానుల్ సుభక్తిన్ నిత్య మేక కంఠముతోడ నిన్ గొనియాడుచున్నారు ||ఓ||
+3. పరిశుద్ధ, పరిశుద్ధ పరిశుద్ధ,సేనల దేవా ధరపరలోకంబులు నీ వర మహిమతో నోప్పునటంచు ||నో||
+4. కెరూబుల్ సెరూపుల్ నిన్నుఁ గీర్తించుచున్నారహహా సారెకున్ నిన్నపొస్తలుల సంఘము స్తోత్రించుచుండు కూరిమిన్ బ్రవక్తల సంఘము కొనియాడుచు నిన్ నుతియించు ||నో||
+5. మా మహా జనకా నిను మాన్యుఁడౌ పుత్రున్ బహు ప్రేమగల మా పరిశుద్ధాత్మను బ్రీతితో సంఘము భువి నొప్పుకొనున్ ||ఓ||
+6. నీవే క్రీస్తు రాజవు నిత్య కుమారుడవు నీ విలలో మానవులను గావఁగఁ బూనినయపుడు పావన కన్యా గర్భంబున బుట్టుట బహుదీనంబనక చావు శ్రమ నోడించి సజ్జనులకు దివిఁ దెరచితివే ||ఓ||
+7. నీవు దేవుని కుడి పార్శ్వంబున నిత్యము మహిమాసీనుఁడవు నీవు మా న్యాయాధిపతివై రావలయునని నమ్ముచుందుము పావనంబౌ నీ రక్తంబున సేవకులకుఁ దోడ్పడు మిపుడే ||ఓ||
+8. నిత్య మహిమములో నిఁక నీదు భక్తులతోన గత్యముగ లెక్కించుము వారలఁ గని రక్షించుమి నీ సుజనంబున్ ||ఓ|
+9. నీవు దీవించి నీ నిత్య స్వాస్థ్యంబు సుజీవమిడి వారలఁ బాలించి లేవఁగ నెత్తుము సతతము ప్రీతిన్ ||ఓ||
+10. ఓ ప్రభువా పాపములో నుండ కుండఁగఁ దోడ్పడుము మా ప్రభువా కరుణించు మముఁ గరుణించుము దయతోడన్ ||ఓ||
+11. ఓ ప్రభుండా నిన్ను నమ్మి యున్న మాకుఁ బ్రేమఁ జూపు శ్రీ ప్రభుండా నిన్నే నమ్మితి సిగ్గునొంద నీయకు ము ||ఓ||`,
+
+7: `కలుగును గాక – దేవునికి మహిమ – కలుగును గాక
+కలుగు నున్నతమైన – ఘన స్థలములందున
+నిలకు సమాధానం – నరుల కాయన దయ     ||కలుగును||
+
+ప్రభువైన దేవా – పరమరాజా – సర్వపరిపాలా
+పరిపూర్ణ శక్తిగల– పరమ జనక నిన్ను
+మహిమ స్తుతించుచు – మరి పొగడుచున్నాము     ||కలుగును||
+
+మహిమపర్చుచు – ఆరాధించు – చున్నాము నిన్ను
+మహిమాతిశయమును – మది దలంచియు నీకు
+మహిని మా స్తుతి కృత – జ్ఞత నిచ్చు చున్నాము     ||కలుగును||
+
+ఏక కుమారా – యేసు ప్రభువా – యెహోవా తనయా
+లోక పాపము మోయు – ఏక దేవుని గొఱ్రె
+పిల్ల మమ్మును కనిన – రించుము చల్లగ     ||కలుగును||
+
+పరిశుద్ధుడవు – ప్రభుడవు నీవో – ప్రభువైన క్రీస్తూ
+పరిశుద్ధాత్మతో తండ్రి – యైన దేవునియందు
+బరిపూర్ణ మహిమతో – బ్రబలుచున్నామామేన్     ||కలుగును||`,
+
+8: `1.కూడికొని యున్నాము సంఘ ప్రభో కూడికొని యున్నాము తోడ నుండెద ననుచు నమ్ముచు దొడ్డ దగు నీ పాద సన్నిధి                                             ||కూడికొని||
+2.ఎచట నా ప్రియ భక్తులెలమిఁ గూడియున్న నచటికి నేతెంతునని పల్కితి విచట నుండు మమ్ము వీక్షించి కృపచేత నిపుడు దీవించు మీ యేసు క్రీస్తునాధా                                                                                                                               ||కూడికొని||
+3.గత కాలమందున గాని చేఁతలచే దుర్గతి నొంది య
