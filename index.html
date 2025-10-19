@@ -62,6 +62,7 @@
       overflow-y: auto;
       padding: 20px;
       text-align: left;
+      position: relative;
     }
 
     .lyrics h2 {
@@ -70,24 +71,29 @@
       color: #2ecc71;
     }
 
-    button {
+    /* New Back Button Style */
+    .back-btn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
       background-color: #2ecc71;
       border: none;
       color: white;
-      padding: 10px 20px;
-      border-radius: 20px;
+      padding: 10px 18px;
+      border-radius: 25px;
       cursor: pointer;
       font-size: 1em;
-      margin-top: 20px;
+      z-index: 1000;
     }
 
-    button:hover {
+    .back-btn:hover {
       background-color: #27ae60;
     }
 
     .lyrics pre {
       white-space: pre-wrap;
       font-size: 18px;
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -115,33 +121,43 @@
 
   <!-- Lyrics Page -->
   <div id="lyricsPage" class="lyrics">
+    <button class="back-btn" onclick="goBack()">← వెనక్కి</button>
     <h2 id="songTitle"></h2>
     <pre id="songLyrics"></pre>
-    <div style="text-align:center;">
-      <button onclick="goBack()">Back</button>
-    </div>
   </div>
 
   <script>
     const songs = {
-1: `అన్ని కాలంబుల – నున్న యెహోవా ని
-నెన్నదరంబయో – కన్న తండ్రి
-వన్నె కెక్కిన మోక్ష – వాసాళి సన్నుతు
-లున్నతమై యుండ – మున్నె నీకు         ||అన్ని||
+      1: `అన్ని కాలంబుల – నున్న యెహోవా ...`,
+      2: `ఆకాశమందున్న ఆసీనుడా ...`,
+      3: `ఆకాశ వాసులారా ...`,
+      4: `ఇరువది నలుగురు పెద్దలతో ...`,
+      5: `ఇశ్రాయేలు సైన్యములకు ముందు నడచిన దైవమా ...`,
+      6: `ఓ ప్రభుండా నిన్ నుతీంచుచున్నాము ...`,
+      7: `కలుగును గాక – దేవునికి మహిమ ...`,
+      8: `కూడికొని యున్నాము సంఘ ప్రభో ...`
+    };
 
-నిన్ను బ్రకటన సేయ – నిఖిల లోకములను
-బన్నుగ జేసిన – బలుడ వీవె
-ఉన్న లోకంబుల – నుడుగక కరుణా సం
-పన్నతతో నేలు – ప్రభుడ వీవె
-అన్ని జీవుల నెరిగి – యాహార మిచ్చుచు
-నున్న సర్వజ్ఞుo – డవు నీవే
-ఎన్న శక్యముగాక – ఉన్న లక్షణముల
-సన్నుతించుటకు నే – జాలుదునా           ||అన్ని||
+    function showLyrics(num) {
+      document.getElementById("songListPage").style.display = "none";
+      document.getElementById("lyricsPage").style.display = "block";
+      document.getElementById("songTitle").innerText = document.querySelectorAll("li")[num - 1].innerText;
+      document.getElementById("songLyrics").innerText = songs[num];
+    }
 
-పుట్టింప నీవంచు – బోషింప నీవంచు
-గిట్టింప నీవంచు – గీర్తింతును
-నట్టి పనికి మాలి – నట్టి మానవుల చే
-పట్టి రక్షింప బా – ధ్యుండ వంచు
+    function goBack() {
+      document.getElementById("lyricsPage").style.display = "none";
+      document.getElementById("songListPage").style.display = "flex";
+    }
+
+    // Splash screen delay
+    setTimeout(() => {
+      document.getElementById("splashPage").classList.remove("active");
+      document.getElementById("songListPage").classList.add("active");
+    }, 3000);
+  </script>
+</body>
+</html>
 దట్టమైన కృపను దరి జేర్చ నాకిచ్చి
 పట్టయు నిలచియుండు – ప్రభుడ వంచు
 గట్టడచే గడ – ముట్టుదనుక నా
