@@ -68,6 +68,14 @@
       text-align: center;
       margin-bottom: 20px;
       color: #2ecc71;
+      flex-grow: 1; /* H2 takes up available space */
+    }
+
+    .lyrics-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
     }
 
     button {
@@ -79,6 +87,12 @@
       cursor: pointer;
       font-size: 1em;
       margin-top: 20px;
+    }
+    /* Specific styles for the top back button */
+    .lyrics-header button {
+        margin-top: 0;
+        padding: 8px 15px;
+        white-space: nowrap; /* Prevent button text from wrapping */
     }
 
     button:hover {
@@ -93,12 +107,10 @@
 </head>
 <body>
 
-  <!-- Splash Page -->
   <div id="splashPage" class="page active">
     <img class="logo" src="https://github.com/user-attachments/assets/9e2a9bc7-42e4-467b-b8f6-e7dabb2f12d1" alt="Logo"/>
   </div>
 
-  <!-- Song List Page -->
   <div id="songListPage" class="page">
     <h1>ఆంధ్ర క్రైస్తవ కీర్తనలు</h1>
     <ul>
@@ -113,17 +125,17 @@
     </ul>
   </div>
 
-  <!-- Lyrics Page -->
   <div id="lyricsPage" class="lyrics">
-    <h2 id="songTitle"></h2>
-    <pre id="songLyrics"></pre>
-    <div style="text-align:center;">
-      <button onclick="goBack()">Back</button>
+    <div class="lyrics-header">
+      <button onclick="goBack()">← Back</button>
+      <h2 id="songTitle"></h2>
     </div>
-  </div>
+    <pre id="songLyrics"></pre>
+    </div>
 
   <script>
     const songs = {
+// ... (Your existing songs object remains here)
 1: `అన్ని కాలంబుల – నున్న యెహోవా ని
 నెన్నదరంబయో – కన్న తండ్రి
 వన్నె కెక్కిన మోక్ష – వాసాళి సన్నుతు
@@ -244,15 +256,27 @@
 };
 
     function showLyrics(num) {
+      document.getElementById("songListPage").classList.remove("active");
       document.getElementById("songListPage").style.display = "none";
+
       document.getElementById("lyricsPage").style.display = "block";
-      document.getElementById("songTitle").innerText = document.querySelectorAll("li")[num - 1].innerText;
+      document.getElementById("lyricsPage").classList.add("active");
+      
+      const titleElement = document.getElementById("songTitle");
+      const listItemText = document.querySelectorAll("li")[num - 1].innerText;
+      
+      // Set the song title, removing the number for a cleaner look in the header
+      titleElement.innerText = listItemText.substring(listItemText.indexOf('.') + 2).trim(); 
+
       document.getElementById("songLyrics").innerText = songs[num];
     }
 
     function goBack() {
+      document.getElementById("lyricsPage").classList.remove("active");
       document.getElementById("lyricsPage").style.display = "none";
+      
       document.getElementById("songListPage").style.display = "flex";
+      document.getElementById("songListPage").classList.add("active");
     }
 
     // Splash screen delay
