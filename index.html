@@ -1,142 +1,269 @@
 <!DOCTYPE html>
 <html lang="te">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ఆంధ్ర క్రైస్తవ కీర్తనలు</title>
+  <meta name="theme-color" content="#2ecc71" />
   <style>
+    :root {
+      --bg: #0b0b0b;
+      --fg: #ffffff;
+      --muted: #b7b7b7;
+      --brand: #2ecc71;
+      --brand-2: #27ae60;
+      --card: #141414;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
     body {
-      font-family: "Noto Sans Telugu", sans-serif;
-      background-color: black;
-      color: white;
       margin: 0;
-      padding: 0;
-      overflow: hidden;
+      font-family: "Noto Sans Telugu", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      overflow: hidden; /* we manage scroll per page */
     }
 
+    /* Generic page container */
     .page {
-      display: none;
-      height: 100vh;
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+    }
+
+    .page.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Splash */
+    #splashPage {
+      display: grid;
+      place-items: center;
+      background: radial-gradient(1200px 800px at 50% -10%, #163b2a, transparent 60%), var(--bg);
+    }
+
+    .logo {
+      max-width: min(55vw, 240px);
       width: 100%;
-      text-align: center;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      height: auto;
+      filter: drop-shadow(0 6px 18px rgba(0,0,0,.45));
     }
 
-    .active {
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
       display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .9rem 1rem;
+      background: linear-gradient(180deg, rgba(0,0,0,.75), rgba(0,0,0,.35) 60%, rgba(0,0,0,0));
+      backdrop-filter: blur(6px);
+      z-index: 2;
     }
 
-    img.logo {
-      max-width: 250px;
-      margin-bottom: 20px;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
+    .title {
       margin: 0;
-      width: 90%;
-      max-width: 600px;
-    }
-
-    li {
-      background-color: #2ecc71;
-      color: white;
-      border-radius: 12px;
-      margin: 10px 0;
-      padding: 15px;
-      font-size: 1.1em;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    li:hover {
-      background-color: #27ae60;
-    }
-
-    .lyrics {
-      display: none;
-      height: 100vh;
-      overflow-y: auto;
-      padding: 20px;
-      text-align: left;
-    }
-
-    .lyrics h2 {
+      font-weight: 700;
+      font-size: clamp(1.15rem, 2.5vw, 1.6rem);
+      letter-spacing: 0.2px;
+      color: var(--fg);
+      flex: 1;
       text-align: center;
-      margin-bottom: 20px;
-      color: #2ecc71;
-      flex-grow: 1; /* H2 takes up available space */
     }
+
+    .btn, button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: .6rem .95rem;
+      font-size: .95rem;
+      font-weight: 600;
+      color: #fff;
+      background: var(--brand);
+      cursor: pointer;
+      transition: transform .08s ease, background .2s ease, opacity .2s ease;
+      user-select: none;
+    }
+    .btn:active, button:active { transform: translateY(1px) scale(0.99); }
+    .btn.ghost { background: #1d1d1d; color: var(--fg); border: 1px solid #2a2a2a; }
+    .btn:hover { background: var(--brand-2); }
+
+    /* List page */
+    #songListPage {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .appbar {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: 1rem;
+    }
+
+    .appbar h1 {
+      margin: 0;
+      font-size: clamp(1.2rem, 3.8vw, 2rem);
+      letter-spacing: .3px;
+      color: var(--fg);
+      flex: 1;
+      text-align: center;
+    }
+
+    .search-wrap { padding: 0 1rem 0.5rem; }
+
+    .search {
+      width: 100%;
+      padding: .9rem 1rem;
+      border-radius: var(--radius);
+      border: 1px solid #2b2b2b;
+      background: #101010;
+      color: var(--fg);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .list {
+      overflow-y: auto;
+      padding: .5rem 1rem 1rem;
+      display: grid;
+      gap: .6rem;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+      padding: .95rem 1rem;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid #1f1f1f;
+      cursor: pointer;
+      transition: background .2s ease, transform .06s ease;
+    }
+
+    .item:active { transform: scale(0.998); }
+    .item:hover { background: #181818; }
+
+    .num {
+      inline-size: 2.2rem;
+      block-size: 2.2rem;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--brand);
+      color: #061a0f;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      flex: none;
+    }
+
+    .label { font-size: 1.02rem; line-height: 1.3; }
+
+    /* Lyrics page */
+    #lyricsPage { grid-template-rows: auto 1fr; }
 
     .lyrics-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
+      gap: .6rem;
+      padding: .6rem .6rem .6rem .4rem;
+      position: sticky;
+      top: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.85), rgba(0,0,0,.4) 60%, rgba(0,0,0,0));
+      backdrop-filter: blur(6px);
+      z-index: 3;
     }
 
-    button {
-      background-color: #2ecc71;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 1em;
-      margin-top: 20px;
-    }
-    /* Specific styles for the top back button */
-    .lyrics-header button {
-        margin-top: 0;
-        padding: 8px 15px;
-        white-space: nowrap; /* Prevent button text from wrapping */
+    .lyrics-title {
+      margin: 0;
+      flex: 1;
+      text-align: center;
+      color: var(--brand);
+      font-weight: 800;
+      font-size: clamp(1.05rem, 3.2vw, 1.5rem);
+      letter-spacing: .2px;
     }
 
-    button:hover {
-      background-color: #27ae60;
+    .lyrics-scroll {
+      overflow-y: auto;
+      padding: .75rem 1rem 6rem; /* bottom space for comfort */
     }
 
-    .lyrics pre {
+    pre {
       white-space: pre-wrap;
-      font-size: 18px;
+      font-size: 1.08rem;
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .footer {
+      position: sticky;
+      bottom: 0;
+      padding: .75rem 1rem;
+      display: flex;
+      justify-content: center;
+      background: linear-gradient(0deg, rgba(0,0,0,.85), rgba(0,0,0,0));
+    }
+
+    /* Reduce motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .page { transition: none; }
     }
   </style>
 </head>
 <body>
+  <!-- Splash -->
+  <section id="splashPage" class="page active" aria-label="Splash">
+    <img class="logo" alt="Logo" src="https://github.com/user-attachments/assets/9e2a9bc7-42e4-467b-b8f6-e7dabb2f12d1" />
+  </section>
 
-  <div id="splashPage" class="page active">
-    <img class="logo" src="https://github.com/user-attachments/assets/9e2a9bc7-42e4-467b-b8f6-e7dabb2f12d1" alt="Logo"/>
-  </div>
+  <!-- List -->
+  <section id="songListPage" class="page" aria-label="Songs List" role="region" aria-live="polite">
+    <div class="appbar">
+      <button class="btn ghost" id="skipSplash" title="Skip splash">⏭️</button>
+      <h1>ఆంధ్ర క్రైస్తవ కీర్తనలు</h1>
+      <span style="width:40px"></span>
+    </div>
 
-  <div id="songListPage" class="page">
-    <h1>ఆంధ్ర క్రైస్తవ కీర్తనలు</h1>
-    <ul>
-      <li onclick="showLyrics(1)">1. అన్ని కాలంబుల – నున్న యెహోవా</li>
-      <li onclick="showLyrics(2)">2. ఆకాశమందున్న ఆసీనుడా</li>
-      <li onclick="showLyrics(3)">3. ఆకాశ వాసులారా</li>
-      <li onclick="showLyrics(4)">4. ఇరువది నలుగురు పెద్దలతో</li>
-      <li onclick="showLyrics(5)">5. ఇశ్రాయేలు సైన్యములకు ముందు నడచిన దైవమా</li>
-      <li onclick="showLyrics(6)">6. ఓ ప్రభుండా నిన్ నుతీంచుచున్నాము</li>
-      <li onclick="showLyrics(7)">7. కలుగును గాక – దేవునికి మహిమ</li>
-      <li onclick="showLyrics(8)">8. కూడికొని యున్నాము సంఘ ప్రభో</li>
-    </ul>
-  </div>
+    <div class="search-wrap">
+      <input id="search" class="search" type="search" placeholder="పాటలు వెతకండి… (Search songs)" aria-label="Search songs" />
+    </div>
 
-  <div id="lyricsPage" class="lyrics">
+    <div id="list" class="list" role="list"></div>
+
+    <div class="footer">
+      <button class="btn" id="aboutBtn" title="About">ℹ️ About</button>
+    </div>
+  </section>
+
+  <!-- Lyrics -->
+  <section id="lyricsPage" class="page" aria-label="Lyrics" role="region">
     <div class="lyrics-header">
-      <button onclick="goBack()">← Back</button>
-      <h2 id="songTitle"></h2>
+      <button class="btn" id="backBtn" aria-label="Back">← Back</button>
+      <h2 id="songTitle" class="lyrics-title"></h2>
+      <button class="btn ghost" id="copyBtn" title="Copy lyrics">📋 Copy</button>
     </div>
-    <pre id="songLyrics"></pre>
+    <div id="lyricsScroll" class="lyrics-scroll">
+      <pre id="songLyrics"></pre>
     </div>
+  </section>
 
   <script>
-    const songs = {
-// ... (Your existing songs object remains here)
-1: `అన్ని కాలంబుల – నున్న యెహోవా ని
+    // --- Data ---------------------------------------------------------------
+    const SONGS = [
+      { id: 1, title: "అన్ని కాలంబుల – నున్న యెహోవా", lyrics: `అన్ని కాలంబుల – నున్న యెహోవా ని
 నెన్నదరంబయో – కన్న తండ్రి
 వన్నె కెక్కిన మోక్ష – వాసాళి సన్నుతు
 లున్నతమై యుండ – మున్నె నీకు         ||అన్ని||
@@ -166,9 +293,9 @@
 సార సద్గుణముల – సంపన్నుడవు నీవు
 ఘోర దుర్గుణ సం – చారి, నేను
 ఏ రీతి స్తుతియింతు – నే రీతి సేవింతు
-నేర మెన్నక ప్రోవ – నెర నమ్మితి            ||అన్ని||`,
+నేర మెన్నక ప్రోవ – నెర నమ్మితి            ||అన్ని||` },
 
-2: `ఆకాశమందున్న ఆసీనుడా
+      { id: 2, title: "ఆకాశమందున్న ఆసీనుడా", lyrics: `ఆకాశమందున్న ఆసీనుడా
 నీ తట్టు కనులెత్తుచున్నాను
 నేను నీ తట్టు కనులెత్తుచున్నాను        ||ఆకాశ||
 
@@ -182,9 +309,9 @@
 
 పాప ఊభిలో పడియున్నాను
 లేవనెత్తుమా నన్ను బాగు చేయుమా (2)
-కరుణించుమా యేసు కాపాడుమా        ||నీ తట్టు||`,
+కరుణించుమా యేసు కాపాడుమా        ||నీ తట్టు||` },
 
-3: `ఆకాశ వాసులారా
+      { id: 3, title: "ఆకాశ వాసులారా", lyrics: `ఆకాశ వాసులారా
 యెహోవాను స్తుతియించుడి (2)
 ఉన్నత స్థలముల నివాసులారా
 యెహోవాను స్తుతియించుడి – హల్లేలూయ (2)         ||ఆకాశ||
@@ -197,9 +324,9 @@
 సమస్త భుజనులారా మరియు
 జనముల అధిపతులారా (2)
 వృద్దులు బాలురు, యవ్వనులారా
-యెహోవాను స్తుతియించుడి – హల్లేలూయ (2)         ||ఆకాశ||`,
+యెహోవాను స్తుతియించుడి – హల్లేలూయ (2)         ||ఆకాశ||` },
 
-4: `ఇరువది నలుగురు పెద్దలతో
+      { id: 4, title: "ఇరువది నలుగురు పెద్దలతో", lyrics: `ఇరువది నలుగురు పెద్దలతో
 పరిశుద్ధ దూతల సమూహముతో (2)
 నాలుగు జీవుల గానముతో (2)
 స్తుతియింపబడుచున్న మా దేవా           ||ఇరువది||
@@ -217,9 +344,9 @@
 గుప్పిలి విప్పి కూర్మితోను
 గొప్పగ దీవెనలిచ్చెదవు (2)
 గొర్రెల కాపరి దావీదు (2)
-అయ్యెను ఎంతో మహారాజు           ||ఇరువది||`,
+అయ్యెను ఎంతో మహారాజు           ||ఇరువది||` },
 
-5: `ఇశ్రాయేలు సైన్యములకు ముందు నడచిన దైవమా (2)
+      { id: 5, title: "ఇశ్రాయేలు సైన్యములకు ముందు నడచిన దైవమా", lyrics: `ఇశ్రాయేలు సైన్యములకు ముందు నడచిన దైవమా (2)
 నేడు మాతో కూడా నుండి మమ్ము నడిపించుమా (2)
 
 సొలొమోను దేవాలయంలలో నీదు మేఘము రాగానే (2)
@@ -232,18 +359,18 @@
 సిలువ రక్తము చేత మమ్ము రక్షించి యుంటివి (2)
 
 ఆది యాపొస్తలులపై నీ యాత్మ వర్షము క్రుమ్మరించి (2)
-నట్లు మాపై క్రుమ్మరించి మమ్ము నడిపించుము (2)`,
+నట్లు మాపై క్రుమ్మరించి మమ్ము నడిపించుము (2)` },
 
-6: `ఓ ప్రభుండా నిన్ నుతీంచుచున్నాము వినయముతోడ మా ప్రభువా
+      { id: 6, title: "ఓ ప్రభుండా నిన్ నుతీంచుచున్నాము", lyrics: `ఓ ప్రభుండా నిన్ నుతీంచుచున్నాము వినయముతోడ మా ప్రభువా
 నిన్ను మానక మేమొప్పుకొందు ||మో||
-(Full version omitted here for brevity, you already have it)`,
+(Full version omitted here for brevity, you already have it)` },
 
-7: `కలుగును గాక – దేవునికి మహిమ – కలుగును గాక
+      { id: 7, title: "కలుగును గాక – దేవునికి మహిమ", lyrics: `కలుగును గాక – దేవునికి మహిమ – కలుగును గాక
 కలుగు నున్నతమైన – ఘన స్థలములందున
 నిలకు సమాధానం – నరుల కాయన దయ     ||కలుగును||
-... (rest same as above)`,
+... (rest same as above)` },
 
-8: `కూడికొని యున్నాము సంఘ ప్రభో కూడికొని యున్నాము
+      { id: 8, title: "కూడికొని యున్నాము సంఘ ప్రభో", lyrics: `కూడికొని యున్నాము సంఘ ప్రభో కూడికొని యున్నాము
 తోడ నుండెద ననుచు నమ్ముచు దొడ్డదగు నీ పాద సన్నిధి      ||కూడికొని||
 
 ఎచట నా ప్రియ భక్తులెలమిఁ గూడియున్న నచటికి
@@ -252,38 +379,146 @@
 
 గత కాలమందున గాని చేఁతలచే దుర్గతి నొంది యుండితివి
 నేటి మనము నీ సన్నిధిలో కృతజ్ఞతతో నిలిచి యున్నాము
-నీ రక్తమునందు మమ్ము శుద్ధి చేసి దీవించు ప్రభూ      ||కూడికొని||`
-};
+నీ రక్తమునందు మమ్ము శుద్ధి చేసి దీవించు ప్రభూ      ||కూడికొని||` },
+    ];
 
-    function showLyrics(num) {
-      document.getElementById("songListPage").classList.remove("active");
-      document.getElementById("songListPage").style.display = "none";
+    // --- Elements ----------------------------------------------------------
+    const splash = document.getElementById('splashPage');
+    const listPage = document.getElementById('songListPage');
+    const lyricsPage = document.getElementById('lyricsPage');
+    const listEl = document.getElementById('list');
+    const searchEl = document.getElementById('search');
+    const backBtn = document.getElementById('backBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const skipSplash = document.getElementById('skipSplash');
+    const aboutBtn = document.getElementById('aboutBtn');
 
-      document.getElementById("lyricsPage").style.display = "block";
-      document.getElementById("lyricsPage").classList.add("active");
-      
-      const titleElement = document.getElementById("songTitle");
-      const listItemText = document.querySelectorAll("li")[num - 1].innerText;
-      
-      // Set the song title, removing the number for a cleaner look in the header
-      titleElement.innerText = listItemText.substring(listItemText.indexOf('.') + 2).trim(); 
+    const titleEl = document.getElementById('songTitle');
+    const lyricsEl = document.getElementById('songLyrics');
+    const lyricsScroll = document.getElementById('lyricsScroll');
 
-      document.getElementById("songLyrics").innerText = songs[num];
+    // --- Helpers ------------------------------------------------------------
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+    function showPage(show, hide) {
+      hide.classList.remove('active');
+      show.classList.add('active');
+    }
+
+    function renderList(filter = '') {
+      const q = filter.trim().toLowerCase();
+      listEl.innerHTML = '';
+      const items = SONGS.filter(s => !q ||
+        s.title.toLowerCase().includes(q) ||
+        s.lyrics.toLowerCase().includes(q)
+      );
+
+      if (items.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'item';
+        empty.setAttribute('role','listitem');
+        empty.textContent = 'ఫలితాలు లేవు (No results)';
+        listEl.appendChild(empty);
+        return;
+      }
+
+      for (const s of items) {
+        const row = document.createElement('button');
+        row.className = 'item';
+        row.setAttribute('role','listitem');
+        row.setAttribute('aria-label', s.title);
+        row.addEventListener('click', () => openSong(s.id));
+
+        const num = document.createElement('div');
+        num.className = 'num';
+        num.textContent = s.id;
+
+        const label = document.createElement('div');
+        label.className = 'label';
+        label.textContent = s.title;
+
+        row.appendChild(num);
+        row.appendChild(label);
+        listEl.appendChild(row);
+      }
+    }
+
+    function openSong(id) {
+      const song = SONGS.find(s => s.id === id);
+      if (!song) return;
+      titleEl.textContent = song.title;
+      lyricsEl.textContent = song.lyrics;
+
+      // save last opened
+      try { localStorage.setItem('lastSongId', String(id)); } catch {}
+
+      // reset scroll
+      lyricsScroll.scrollTop = 0;
+
+      showPage(lyricsPage, listPage);
     }
 
     function goBack() {
-      document.getElementById("lyricsPage").classList.remove("active");
-      document.getElementById("lyricsPage").style.display = "none";
-      
-      document.getElementById("songListPage").style.display = "flex";
-      document.getElementById("songListPage").classList.add("active");
+      showPage(listPage, lyricsPage);
+      searchEl.focus({ preventScroll: true });
     }
 
-    // Splash screen delay
-    setTimeout(() => {
-      document.getElementById("splashPage").classList.remove("active");
-      document.getElementById("songListPage").classList.add("active");
-    }, 3000);
+    function copyLyrics() {
+      const text = `${titleEl.textContent}\n\n${lyricsEl.textContent}`.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        copyBtn.textContent = '✅ Copied';
+        setTimeout(() => (copyBtn.textContent = '📋 Copy'), 1200);
+      }).catch(() => {
+        alert('Copy failed.');
+      });
+    }
+
+    // --- Events -------------------------------------------------------------
+    backBtn.addEventListener('click', goBack);
+    copyBtn.addEventListener('click', copyLyrics);
+    searchEl.addEventListener('input', (e) => renderList(e.target.value));
+    skipSplash.addEventListener('click', () => {
+      splash.classList.remove('active');
+      listPage.classList.add('active');
+    });
+    aboutBtn.addEventListener('click', () => {
+      alert('ఆంధ్ర క్రైస్తవ కీర్తనలు — Single‑file offline‑friendly app.\n\nCreated with ❤️.');
+    });
+
+    // Keyboard: Backspace from lyrics goes back
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || (e.key === 'Backspace' && document.activeElement === document.body)) {
+        if (lyricsPage.classList.contains('active')) goBack();
+      }
+    });
+
+    // Swipe back on touch (simple)
+    let touchX = null;
+    lyricsScroll.addEventListener('touchstart', (e) => touchX = e.touches[0].clientX, {passive:true});
+    lyricsScroll.addEventListener('touchend', (e) => {
+      if (touchX == null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (dx > 60) goBack();
+      touchX = null;
+    }, {passive:true});
+
+    // --- Startup ------------------------------------------------------------
+    (async function init() {
+      renderList('');
+
+      // Splash → List after delay
+      const splashMs = 1600; // shorter, feels snappier
+      await sleep(splashMs);
+      splash.classList.remove('active');
+      listPage.classList.add('active');
+
+      // If previously opened, allow quick resume (long-press Skip)
+      skipSplash.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        const id = Number(localStorage.getItem('lastSongId'));
+        if (id) openSong(id);
+      });
+    })();
   </script>
 </body>
 </html>
