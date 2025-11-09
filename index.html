@@ -459,9 +459,8 @@
     }
 
     function goBack() {
-      showPage(listPage, lyricsPage);
-      searchEl.focus({ preventScroll: true });
-    }
+  showPage(listPage, lyricsPage);
+}
 
     function copyLyrics() {
       const text = `${titleEl.textContent}\n\n${lyricsEl.textContent}`.trim();
